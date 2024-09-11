@@ -9,7 +9,8 @@ import pretty_midi
 from midi2audio import FluidSynth
 from scipy import signal
 from tqdm import tqdm
-WAV_OUT = 'files/'
+
+WAV_OUT = 'wav_temp/'
 
 
 def construct_kernel(size, std):

@@ -106,7 +106,7 @@ def process_all_songs(songs, mode):
     return processed_songs
 
 '''
-Performs PCA on the features, 
+Performs PCA on the features
 '''
 if __name__ == '__main__':
     with open('resources/features_train.pkl', 'rb') as f:
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     with open('resources/labels_train.pkl', 'rb') as f:
         labels = pickle.load(f)
 
-    mode = 'ORIGINAL'
+    mode = 'FULL'
     processed_songs = process_all_songs(data, mode)
 
     perform_pca(processed_songs, labels, n_components=2, mode=mode)

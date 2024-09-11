@@ -1,8 +1,8 @@
 import json
-
 import numpy as np
 import os
-import keras
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 from keras.src.initializers import GlorotNormal
 from keras.src.utils import pad_sequences
 from keras.src.models import Model
@@ -16,7 +16,7 @@ from sklearn.metrics import confusion_matrix
 import pickle
 import matplotlib.pyplot as plt
 
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
 
 
 def standardize_features(features, mode):
@@ -47,29 +47,25 @@ def merge_instruments(features, instruments):
     return combined_list
 
 
-def get_features(data, mode):
+def get_features(data, mode, standardize=True):
     features = [key[0] for key in data]
 
-    if mode == 'FULL':
-
-        instruments = [key[1] for key in data]
-        std_features = standardize_features(features, mode)
-        std_features = merge_instruments(std_features, instruments)
-
-    elif mode == 'NO_MFCCS':
-        instruments = [key[1] for key in data]
+    if mode == 'NO_MFCCS':
 
         features = [[features[i][j][:7] for j in range(len(features[i]))] for i in range(len(features))]
-
-        std_features = standardize_features(features, mode)
-        std_features = merge_instruments(std_features, instruments)
 
     elif mode == 'ORIGINAL':
 
         features = [[features[i][j][:6] for j in range(len(features[i]))] for i in range(len(features))]
-        std_features = standardize_features(features, mode)
 
-    return std_features
+    if standardize:
+        features = standardize_features(features, mode)
+
+    if not mode == 'ORIGINAL':
+        instruments = [key[1] for key in data]
+        features = merge_instruments(features, instruments)
+
+    return features
 
 
 if __name__ == '__main__':
@@ -80,7 +76,7 @@ if __name__ == '__main__':
         labels = pickle.load(f)
 
     # FULL for all features, NO_MFCCS for no mfccs, ORIGINAL for just the six described in the paper
-    mode = 'NO_MFCCS'
+    mode = 'FULL'
     std_features = get_features(data, mode)
     X_padded = pad_sequences(std_features, padding='post', dtype='float32')
 
