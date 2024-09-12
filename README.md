@@ -19,4 +19,4 @@ The *resources* and *wav_temp* folders are used to load the model and store temp
 The models have been trained using the *BIGRU* script. The dataset is in the corresponding folder and has been loaded using the *dataset_load* and *check_readable* scripts.
 
 ## Conclusions
-The suspect that the high accuracy mentioned by the paper is overstated is confirmed by the experimental results of the three models. However, the original dataset and the original structure of the neural network is not available; hence, results can differ.
+The suspect that the high accuracy mention'ed by the paper is overstated is confirmed by the experimental results of the three models. However, the original dataset and the original structure of the neural network is not available; hence, results can differ.
